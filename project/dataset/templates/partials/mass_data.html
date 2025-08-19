@@ -1,0 +1,5 @@
+<form method="post" action="{% url 'mass_data' %}">
+    {% csrf_token %}
+    {{ mass_data_form.as_p }}
+    <button name = "mass_data" style="display: block; margin-left: auto; margin-right: auto; padding: 12px 24px; top-bottom 12px, left-right 24px;">Generate Data</button>
+</form>

@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+
+{% block title %}
+    Login
+{% endblock title %}
+
+
+{% block content %}
+    <p> This is the login page </p> 
+    <form class = "validated_form" action="{% url 'login' %}" method = "post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{ form.errors }}
+        {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{ request.GET.next}}"/>
+        {% endif %}
+        <button style="display: block; margin-left: auto; margin-right: auto; padding: 12px 24px; top-bottom 12px, left-right 24px;">Submit</button>
+    </form>
+    <p>If u are not signed in you can register on the <a href="{% url 'registration' %}">registration</a> page</p>
+{% endblock content %}
+    

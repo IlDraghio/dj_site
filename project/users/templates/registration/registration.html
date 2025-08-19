@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+
+{% block title %}
+    Registration
+{% endblock title %}
+
+
+{% block content %}
+    <p> This is the registration page </p> 
+    <form class = "validated_form" action="{% url 'registration' %}" method = "post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{ form.errors }}
+        <button style="display: block; margin-left: auto; margin-right: auto; padding: 12px 24px; top-bottom 12px, left-right 24px;">Submit</button>
+    </form>
+    <p>Link to the <a href="/">home</a> page</p>
+{% endblock content %}
+    

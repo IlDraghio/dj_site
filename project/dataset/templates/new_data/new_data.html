@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+
+{% block title %}
+    New data
+{% endblock title %}
+
+
+{% block content %}
+    <p> This is the new data page </p> 
+    <form class = "validated_form" method = "post"> <!-- manual data generation form  -->
+        {% csrf_token %}
+        {{ new_data_form.as_p }}
+        <button name = "new_data" style="display: block; margin-left: auto; margin-right: auto; padding: 12px 24px; top-bottom 12px, left-right 24px;">Submit</button>
+    </form>
+
+    <p>Mass Data Generation</p>
+
+    {% include 'partials/mass_data.html' with form=massdata_form %}  <!-- mass_data form and button -->
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+            </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
+    <p>Link to the <a href="{% url 'dataset' %}">dataset</a> page</p>
+{% endblock content %}
+    

@@ -1,0 +1,57 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: grid;
+    place-content: center;
+    font-size: 3rem;
+    background-color: rgb(30, 30, 30);
+    color: antiquewhite;
+}
+
+h1,
+p {
+    text-align: center;
+}
+
+a {
+    color: red;
+}
+
+
+nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    display: flex;
+    align-items: center;  
+    gap: 1rem;   
+}
+
+nav form {
+    display: inline-block;
+    margin: 0;            
+    padding: 0;   
+}
+
+nav .nav-button {
+    background-color: transparent;
+    font-size: 3rem;
+    color : red;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.validated_form {
+    text-align: center;
+}
+
+.errorlist li::marker{
+    content: "!";
+}
