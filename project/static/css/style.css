@@ -13,6 +13,12 @@ body {
     color: antiquewhite;
 }
 
+main {
+    justify-self: start;
+    padding: 20px;
+    margin-top: 60px;
+}
+
 h1,
 p {
     text-align: center;
@@ -22,6 +28,9 @@ a {
     color: red;
 }
 
+div {
+    font-size: 1.5rem;
+}
 
 nav {
     position: absolute;
@@ -54,4 +63,35 @@ nav .nav-button {
 
 .errorlist li::marker{
     content: "!";
+}
+
+.data_container {
+    text-align: left;
+    margin-left: 0 !important;
+    justify-self: start;
+    width: 100%;
+}
+
+table {
+    width: 80%;
+    margin-left: 20px;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+}
+
+table th, table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+table th {
+    font-weight: bold;
+}
+
+.search_form p {
+    font-size: 1.5rem;
+    display: inline-block;
+    margin-right: 15px;
 }

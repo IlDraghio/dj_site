@@ -20,7 +20,7 @@ def absences_by_behavior(behavior): #generate number of absences using a gaussia
                 return x
     if behavior == 'Sufficient':
         while True:
-            x = random.gauss(150, 3)
+            x = random.gauss(120, 2)
             if 0 <= x <= 300:
                 return x
     if behavior == 'Poor':
@@ -29,30 +29,66 @@ def absences_by_behavior(behavior): #generate number of absences using a gaussia
             if 0 <= x <= 300:
                 return x
 
+def weekly_study_time_generator():
+    while True:
+        x = round(random.gauss(12,3), 2)
+        if 0 <= x <= 20:
+                return x
+    
 def average_grade_by_weekly_study_time(weekly_study_time): #generate average_grade using a gaussian with a mu dependent by weekly_study_time
         while True:
             mu = int(weekly_study_time/2)  #normalyzing to 10 because max(weekly_study_time) is 20
-            x = random.gauss(mu, 2)
+            x = random.gauss(mu, 1)
             if 4 <= x <= 10:
                 return x
 
 def mass_data_generation(request,n):
     for _ in range(n):
         gender=random.choice(['Male', 'Female']) 
-        weekly_study_time=round(random.uniform(0, 20), 2)
-        behavior = random.choice(['Excellent', 'Good', 'Sufficient', 'Poor'])
-        
+        weekly_study_time=weekly_study_time_generator()
+        behavior = random.choices(population=['Excellent', 'Good', 'Sufficient', 'Poor'],
+                                    weights=[0.1, 0.4, 0.4, 0.1],
+                                    k=1)[0]
         Data.objects.create(
-        user=request.user,
-        gender=gender,
-        name=name_by_gender(gender),
-        surname=random.choice(SURNAME),
-        age=random.randint(14, 20),
-        weekly_study_time=weekly_study_time,
-        absences=absences_by_behavior(behavior),
-        average_grade=average_grade_by_weekly_study_time(weekly_study_time),
-        behavior=behavior
-    )
+            user=request.user,
+            gender=gender,
+            name=name_by_gender(gender),
+            surname=random.choice(SURNAME),
+            age=random.randint(14, 20),
+            weekly_study_time=weekly_study_time,
+            absences=absences_by_behavior(behavior),
+            average_grade=average_grade_by_weekly_study_time(weekly_study_time),
+            behavior=behavior
+            )
+
+def search_data(searchdata_form,data_list):
+    if searchdata_form.cleaned_data.get('name'):
+        data_list = data_list.filter(name__icontains=searchdata_form.cleaned_data['name'])
+    if searchdata_form.cleaned_data.get('surname'):
+        data_list = data_list.filter(surname__icontains=searchdata_form.cleaned_data['surname'])
+    if searchdata_form.cleaned_data.get('min_age') is not None:
+        data_list = data_list.filter(age__gte=searchdata_form.cleaned_data['min_age'])
+    if searchdata_form.cleaned_data.get('max_age') is not None:
+        data_list = data_list.filter(age__lte=searchdata_form.cleaned_data['max_age'])
+    if searchdata_form.cleaned_data.get('gender'):
+        data_list = data_list.filter(gender=searchdata_form.cleaned_data['gender'])
+    if searchdata_form.cleaned_data.get('min_weekly_study_time') is not None:
+        data_list = data_list.filter(weekly_study_time__gte=searchdata_form.cleaned_data['min_weekly_study_time'])
+    if searchdata_form.cleaned_data.get('max_weekly_study_time') is not None:
+        data_list = data_list.filter(weekly_study_time__lte=searchdata_form.cleaned_data['max_weekly_study_time'])
+    if searchdata_form.cleaned_data.get('min_absences') is not None:
+        data_list = data_list.filter(absences__gte=searchdata_form.cleaned_data['min_absences'])
+    if searchdata_form.cleaned_data.get('max_absences') is not None:
+        data_list = data_list.filter(absences__lte=searchdata_form.cleaned_data['max_absences'])
+    if searchdata_form.cleaned_data.get('min_average_grade') is not None:
+        data_list = data_list.filter(average_grade__gte=searchdata_form.cleaned_data['min_average_grade'])
+    if searchdata_form.cleaned_data.get('max_average_grade') is not None:
+        data_list = data_list.filter(average_grade__lte=searchdata_form.cleaned_data['max_average_grade'])
+    if searchdata_form.cleaned_data.get('behavior'):
+        data_list = data_list.filter(behavior=searchdata_form.cleaned_data['behavior'])
+    if searchdata_form.cleaned_data.get('final_outcome'):
+        data_list = data_list.filter(final_outcome=searchdata_form.cleaned_data['final_outcome'])
+    return data_list
 
 MALE_NAME = [
     'Luca', 'Marco', 'Andrea', 'Matteo', 'Francesco', 'Giovanni', 'Alessandro', 'Davide', 'Simone', 'Gabriele',

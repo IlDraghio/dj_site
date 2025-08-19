@@ -1,12 +1,30 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
+from django.core.paginator import Paginator
+from urllib.parse import urlencode
 from django.contrib.auth.decorators import login_required
 from .forms import *
-from .utils import mass_data_generation
+from .utils import mass_data_generation,search_data
 
 @login_required(login_url="login")
 def dataset_view(request):
-    return render(request,'dataset/dataset.html')
+    current_user = request.user
+    search_data_form = Searchdata_form(request.GET or None)
+    data_list = Data.objects.filter(user=current_user)
+    if search_data_form.is_valid():
+        data_list = search_data(search_data_form,data_list)
+    paginator = Paginator(data_list, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    query_params = request.GET.copy()
+    if 'page' in query_params:
+        del query_params['page']
+    query_string = query_params.urlencode()
+    return render(request, 'dataset/dataset.html', {
+                                                    'search_data_form': search_data_form,
+                                                    'page_obj': page_obj,
+                                                    'query_string': query_string,}
+                )
 
 @login_required(login_url="login")
 def newdata_view(request):

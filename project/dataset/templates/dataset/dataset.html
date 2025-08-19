@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-
+{% load static %}
 
 {% block title %}
     %New data%
@@ -7,7 +7,10 @@
 
 
 {% block content %}
-    <p> This is the dataset page </p> 
+    <p> This is the dataset page </p>
+    <p style = text-size: 1.5rem > Search </p>
+    {% include 'partials/search_data.html' with form=search_data_form %}
+    {% include 'partials/table_data.html' %}
     <p>Link to the <a href="{% url 'new_data' %}">new data</a> page</p>
 {% endblock content %}
     
