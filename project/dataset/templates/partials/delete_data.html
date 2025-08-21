@@ -1,0 +1,6 @@
+<p>Insert id to delete data </p>
+<form method="post" action="{% url 'delete_data' %}">
+    {% csrf_token %}
+    <input type="text" name="id_to_delete" placeholder="Enter ID" required style = "display: block; margin: 12px auto; padding: 8px; width: 200px;">
+    <button name = "delete_data" style="display: block; margin-left: auto; margin-right: auto; padding: 12px 24px; top-bottom 12px, left-right 24px;">Delete Data</button>
+</form>

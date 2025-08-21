@@ -29,4 +29,11 @@ class Searchdata_form(forms.Form):
     final_outcome =	forms.ChoiceField(required=False, label='F_outcome',choices=[('','Any'),
                                                                                 ('failed', 'Failed'),
                                                                                 ('passed', 'Passed')])
-    
+
+class Delete_data_form(forms.Form):
+    id = forms.IntegerField(required=True)
+
+class Update_data_form(forms.ModelForm):
+    class Meta:
+        model = Data
+        exclude = ['user','id','final_outcome']

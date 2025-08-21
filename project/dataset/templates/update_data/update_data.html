@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    %Update data%
+{% endblock title %}
+
+
+{% block content %}
+    <h2>Update Data for ID: {{ data.id }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ update_form.as_p }}
+        <input type="hidden" name="id" value="{{ data.id }}">
+        <button type="submit" style="display: block; margin-left: auto; margin-right: auto; padding: 12px 24px; top-bottom 12px, left-right 24px;">Save Changes</button>
+    </form>
+
+    {% if messages %}
+        <ul style="text-align:center;">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock content %}

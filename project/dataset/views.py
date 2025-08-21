@@ -1,10 +1,10 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from django.core.paginator import Paginator
-from urllib.parse import urlencode
 from django.contrib.auth.decorators import login_required
 from .forms import *
 from .utils import mass_data_generation,search_data
+from .models import Data
 
 @login_required(login_url="login")
 def dataset_view(request):
@@ -66,3 +66,37 @@ def massdata_view(request):
         massdata_form = Massdata_form()
 
     return render(request, 'partials/mass_data.html', {'form': massdata_form})
+
+def delete_data_view(request):
+    if request.method == 'POST':
+        pk = request.POST.get('id_to_delete')
+        try:
+            data = get_object_or_404(Data, pk=pk)
+            data.delete()
+            messages.success(request, 'Student deleted successfully!')
+        except Exception as e:
+            messages.error(request, 'No data found with that ID.')
+        return redirect('dataset')
+    return render(request, 'dataset/dataset.html')
+
+def update_data_view(request):
+    pk = request.GET.get('id') or request.POST.get('id')
+    if not pk:
+        messages.error(request, 'No ID provided.')
+        return redirect('dataset')
+    
+    try:
+        data = get_object_or_404(Data, pk=pk)
+    except Exception as e:
+        messages.error(request, 'No data found with that ID.')
+        return redirect("dataset")
+        
+    if request.method == 'POST' and 'id_to_update' not in request.POST:
+        update_form = Update_data_form(request.POST, instance=data)
+        if update_form.is_valid():
+            update_form.save()
+            messages.success(request, "Data updated successfully!")
+            return redirect('dataset')
+    else:
+        update_form = Update_data_form(instance=data)
+    return render(request, 'update_data/update_data.html', {'update_form': update_form, 'data': data})

@@ -11,6 +11,17 @@
     <p style = text-size: 1.5rem > Search </p>
     {% include 'partials/search_data.html' with form=search_data_form %}
     {% include 'partials/table_data.html' %}
+    {% include 'partials/delete_data.html' %}
+    {% include 'partials/update_data.html' %}
+    {% if messages %}
+    <ul class="messages" style="list-style:none; padding:0; text-align:center;">
+    {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+        {{ message }}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
     <p>Link to the <a href="{% url 'new_data' %}">new data</a> page</p>
 {% endblock content %}
     

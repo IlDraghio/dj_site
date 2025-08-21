@@ -18,7 +18,7 @@ class Data(models.Model):
     final_outcome =	models.CharField()
     
     def save(self, *args, **kwargs):  # Override save() to define final_outcome based on other fields
-        if self.average_grade <= 5.3 or self.absences >= 220 or self.behavior == 'Poor':
+        if self.average_grade <= 5 or self.absences >= 220 or self.behavior == 'Poor':
             self.final_outcome = 'failed'
         else:
             self.final_outcome = 'passed'
