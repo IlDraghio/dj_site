@@ -17,7 +17,7 @@
     <p>Mass Data Generation</p>
 
     {% include 'partials/mass_data.html' with form=massdata_form %}  <!-- mass_data form and button -->
-
+    {% include 'partials/import_csv.html' with form=massdata_form %}
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}

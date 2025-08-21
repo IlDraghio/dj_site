@@ -1,7 +1,9 @@
 from django.shortcuts import render,redirect,get_object_or_404
+from django.http import HttpResponse
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+import csv
 from .forms import *
 from .utils import mass_data_generation,search_data
 from .models import Data
@@ -100,3 +102,55 @@ def update_data_view(request):
     else:
         update_form = Update_data_form(instance=data)
     return render(request, 'update_data/update_data.html', {'update_form': update_form, 'data': data})
+
+def import_csv_view(request):
+    if request.method == 'POST' and request.FILES['csv_file']:
+        csv_file = request.FILES['csv_file']
+        try:
+            decoded_file = csv_file.read().decode('utf-8').splitlines()
+            reader = csv.DictReader(decoded_file)
+        except Exception as e:
+            messages.error(request, f"{e} Failed to decode CSV file.")
+            return redirect('new_data')
+        
+        for row in reader:
+            try:
+                Data.objects.create(
+                    user = request.user,
+                    name = row["name"],
+                    surname = row["surname"],
+                    age = int(row["age"]),
+                    gender = row["gender"],
+                    weekly_study_time = float(row["weekly_study_time"]),
+                    absences = int(row["absences"]),
+                    average_grade = float(row["average_grade"]),
+                    behavior = row["behavior"],
+                    final_outcome =	row["final_outcome"],
+                )
+            except Exception as e:
+                messages.error(request, f"{e} Failed to decode CSV file.")
+                return redirect('new_data')
+        messages.success(request, "CSV imported successfully.")
+        return redirect('new_data')
+
+    return render(request, 'partials/import_csv.html')
+
+def export_csv_view(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="dataset.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['name','surname','age','gender','weekly_study_time','absences','average_grade','behavior','final_outcome'])
+
+    for data in Data.objects.filter(user=request.user):
+        writer.writerow([data.name,
+                        data.surname,
+                        data.age,
+                        data.gender,
+                        data.weekly_study_time,
+                        data.absences,
+                        data.average_grade,
+                        data.behavior,
+                        data.final_outcome])
+
+    return response
