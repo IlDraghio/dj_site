@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Preprocessed data
+{% endblock title %}
+
+
+{% block content %}
+    <p> This is the Preprocessed data page </p>
+    <div style="display: flex; justify-content: center; gap: 20px;">
+    <form action="{% url 'export_csv_view' %}" method="get">
+        <button type="submit" class="btn btn-secondary" style="padding: 12px 24px;">
+            Download CSV Data
+        </button>
+    </form>
+
+    <form action="{% url 'table_preprocessed_data' %}" method="get">
+    <button type="submit" class="btn btn-primary" style="display: block; margin-left: auto; margin-right: auto; padding: 12px 24px;">Show Preprocessed Dataset</button>
+    </form>
+    </div>
+    <div style="margin-top: 30px;">
+    {% include 'partials/table_preprocessed_data.html' %}
+    </div>
+    {% if messages %}
+    <ul class="messages" style="list-style:none; padding:0; text-align:center;">
+    {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+        {{ message }}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+{% endblock content %}
+    

@@ -8,4 +8,5 @@ urlpatterns = [
     path('about/',views.about_view, name= 'about'),
     path('users/',include('users.urls')),
     path('dataset/',include('dataset.urls')),
+    path('ml/',include('ml.urls')),
 ]

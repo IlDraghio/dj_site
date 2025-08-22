@@ -1,0 +1,45 @@
+<div class="data_container">
+    <table>
+        <thead>
+            <tr>
+                <th>Age</th>
+                <th>Gender_Male</th>
+                <th>WST</th>
+                <th>Absences</th>
+                <th>Av_grade</th>
+                <th>Behavior</th>
+                <th>F_outcome</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in page_obj %}
+                <tr>{{ data.value|floatformat:2 }}
+                    <td>{{ data.age|floatformat:2 }}</td>
+                    <td>{{ data.gender_Male|floatformat:0 }}</td>
+                    <td>{{ data.weekly_study_time|floatformat:2 }}</td>
+                    <td>{{ data.absences|floatformat:2 }}</td>
+                    <td>{{ data.average_grade|floatformat:2 }}</td>
+                    <td>{{ data.behavior|floatformat:0 }}</td>
+                    <td>{{ data.final_outcome|floatformat:0 }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">No data available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+    {% if page_obj.has_previous %}
+        <a href="?page=1{% if query_string %}&{{ query_string }}{% endif %}">First</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if query_string %}&{{ query_string }}{% endif %}">Previous</a>
+    {% endif %}
+
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if query_string %}&{{ query_string }}{% endif %}">Next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{% if query_string %}&{{ query_string }}{% endif %}">Last</a>
+    {% endif %}
+    </div>

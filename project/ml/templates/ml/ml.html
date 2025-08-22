@@ -2,17 +2,16 @@
 {% load static %}
 
 {% block title %}
-    %New data%
+    Machine Learning
 {% endblock title %}
 
 
 {% block content %}
-    <p> This is the dataset page </p>
-    {% include 'partials/search_data.html' with form=search_data_form %}
-    {% include 'partials/table_data.html' %}
-    {% include 'partials/delete_data.html' %}
-    {% include 'partials/update_data.html' %}
-    {% include 'partials/export_csv.html' %}
+    <p> This is machine learning data page </p>
+
+    <div style="margin-top: 30px;">
+    </div>
+    
     {% if messages %}
     <ul class="messages" style="list-style:none; padding:0; text-align:center;">
     {% for message in messages %}
@@ -22,6 +21,5 @@
     {% endfor %}
     </ul>
 {% endif %}
-    <p>Link to the <a href="{% url 'new_data' %}">new data</a> page</p>
 {% endblock content %}
     
