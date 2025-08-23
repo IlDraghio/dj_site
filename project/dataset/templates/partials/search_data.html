@@ -1,5 +1,5 @@
 <p style = text-size: 1.5rem > Search </p>
-<form class = "search_form" method = "get">
+<form class = "in_line_form" method = "get">
         {% csrf_token %}
         {{ search_data_form.as_p }}
         <button name = "search" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 20px; padding: 12px 24px; top-bottom 12px, left-right 24px;">Search</button>

@@ -1,0 +1,11 @@
+<h2 class="ml_title">Clustering with KMeans</h2>
+<form class = "in_line_form" method="post" action="{% url 'ml' %}">
+    {% csrf_token %}
+    {{ km_form.as_p }}
+    <button name="km" type="submit" class="centered_button">Plot</button>
+</form>
+{% if km_image %}
+<div style="text-align: center;">
+    <img src="data:image/png;base64,{{ km_image }}" alt="Clustering done using" />
+</div>
+{% endif %}

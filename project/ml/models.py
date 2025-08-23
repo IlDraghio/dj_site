@@ -8,6 +8,6 @@ class Preprocessed_data(models.Model):
     absences = models.FloatField(default=0)
     average_grade = models.FloatField(default=0)
     behavior = models.FloatField(default=0)
-    final_outcome =	models.CharField(default="")
+    final_outcome =	models.FloatField(default="")
     gender_Male = models.FloatField(default=0)
 

@@ -1,0 +1,41 @@
+<h2 class="ml_title">Train Support Vector Machines Classifier</h2>
+<form class = "in_line_form" method="post" action="{% url 'ml' %}">
+    {% csrf_token %}
+    {{ svc_form.as_p }}
+    <button name="svc" type="submit" class="centered_button">Train</button>
+</form>
+{% if svc_metrics %}
+<div style="margin-top:20px; border:1px solid #ccc; padding:15px;">
+    <h3 style="text-align: center;">Training Metrics</h3>
+    <div style="text-align: center;">
+        <span><strong>Accuracy:</strong> {{ svc_metrics.accuracy|floatformat:2 }}</span> |
+        <span><strong>Precision:</strong> {{ svc_metrics.precision|floatformat:2 }}</span> |
+        <span><strong>Recall:</strong> {{ svc_metrics.recall|floatformat:2 }}</span> |
+        <span><strong>F1 Score:</strong> {{ svc_metrics.f1_score|floatformat:2 }}</span>
+    </div>
+    <p><strong>Confusion Matrix:</strong></p>
+    <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Predicted 0</th>
+            <th>Predicted 1</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Actual 0</th>
+            {% for val in svc_metrics.confusion_matrix.0 %}
+                <td style="text-align:center;">{{ val }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Actual 1</th>
+            {% for val in svc_metrics.confusion_matrix.1 %}
+                <td style="text-align:center;">{{ val }}</td>
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>
+</div>
+{% endif %}

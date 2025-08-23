@@ -65,6 +65,13 @@ nav .nav-button {
     content: "!";
 }
 
+.messages li {
+    color: rgb(211, 88, 0);
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+}
+
 .data_container {
     text-align: left;
     margin-left: 0 !important;
@@ -90,7 +97,7 @@ table th {
     font-weight: bold;
 }
 
-.search_form p {
+.in_line_form p {
     font-size: 1.5rem;
     display: inline-block;
     margin-right: 15px;
@@ -101,4 +108,14 @@ table th {
     margin-left: auto;
     margin-right: auto;
     padding: 12px 24px;
+}
+
+form {
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.ml_title {
+    text-align: center;
+    color: darkgreen
 }
