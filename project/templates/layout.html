@@ -22,6 +22,7 @@
         <a href="{% url 'new_data' %}">New data</a> |
         <a href="{% url 'preprocessed_data' %}">Preprocessed Data</a> |
         <a href="{% url 'ml' %}">ML</a> |
+        <a href="{% url 'prediction' %}">Prediction</a> |
         <form action = "{% url 'logout' %}" method = "post">
             {% csrf_token %}
             <button class=nav-button>logout</button>   

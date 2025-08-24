@@ -66,7 +66,6 @@ def preprocessed_data(user):
     df,le = encode_labels(df)
     df,ohe = one_hot_labels(df)
     df,ss = normalize_data(df)
-    print(df.describe())
     pre_data = [
     Preprocessed_data(
         user_id = User.objects.get(id=int(row['user_id'])),
@@ -227,3 +226,39 @@ def km(km_form,user):
     buf.seek(0)
     image_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
     return km,image_base64
+
+def preprocess_to_predict(user,data):
+    data_dict = {
+        'id' : data.id,
+        'name' : data.name,
+        'surname' : data.surname,
+        'user_id': data.user.id,
+        'age': data.age,
+        'weekly_study_time': data.weekly_study_time,
+        'absences': data.absences,
+        'average_grade': data.average_grade,
+        'behavior': data.behavior,
+        'final_outcome': data.final_outcome,
+        'gender': data.gender,
+    }
+    df_pure = pd.DataFrame([data_dict]) 
+    df = drop_irr_columns(df_pure)
+    df,le = encode_labels(df)
+    df['gender_Male'] = df['gender'].apply(lambda x: 1 if x == 'Male' else 0)
+    df = df.drop(columns=['gender'])
+    df,ss = normalize_data(df)
+    row = df.iloc[0]
+    pre_data = Preprocessed_data(
+            user_id = User.objects.get(id=int(row['user_id'])),
+            age = row['age'],
+            weekly_study_time = row['weekly_study_time'],
+            absences = row['absences'],
+            average_grade = row['average_grade'],
+            behavior = row['behavior'],
+            final_outcome =	row['final_outcome'],
+            gender_Male = row['gender_Male'],
+            )
+    pre_data.save()
+    df =df[['age', 'weekly_study_time', 'absences',
+            'average_grade', 'behavior', 'gender_Male']]
+    return df

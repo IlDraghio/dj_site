@@ -1,12 +1,12 @@
-from django.shortcuts import render,redirect,get_object_or_404
-from django.http import HttpResponse,FileResponse
+from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from django.contrib import messages
 from django.core.paginator import Paginator
 from datetime import datetime
 import io
 import joblib
 import base64
-from .utils import preprocessed_data,save_to_csv,dtc,knn,gnb,svc,rfc,km
+from .utils import preprocessed_data,preprocess_to_predict,save_to_csv,dtc,knn,gnb,svc,rfc,km
 from .forms import *
 
 def ml_view(request):
@@ -173,6 +173,52 @@ def ml_view(request):
         'km_form': km_form,
         'km_image': km_image,
     })
+
+def prediction_view(request):
+    prediction_form = Prediction_form()
+    if request.method == 'POST':
+        prediction_form = Prediction_form(request.POST, request.FILES)
+        if prediction_form.is_valid():
+            model_file = prediction_form.cleaned_data['model_file']
+
+            try:
+                loaded_model = joblib.load(model_file)
+                model_name = loaded_model.__class__.__name__
+                data = Data(
+                    name=prediction_form.cleaned_data['name'],
+                    surname=prediction_form.cleaned_data['surname'],
+                    age=prediction_form.cleaned_data['age'],
+                    gender=prediction_form.cleaned_data['gender'],
+                    weekly_study_time=prediction_form.cleaned_data['weekly_study_time'],
+                    absences=prediction_form.cleaned_data['absences'],
+                    average_grade=prediction_form.cleaned_data['average_grade'],
+                    behavior=prediction_form.cleaned_data['behavior'],
+                    user=request.user
+                )
+                data.save()
+                true_value = data.final_outcome
+                if model_name == 'KMeans':
+                    X = preprocess_to_predict(request.user,data)[['weekly_study_time', 'absences', 'average_grade', 'behavior']]
+                    prediction = loaded_model.predict(X)[0]
+                    true_value = data.final_outcome = None
+                else:
+                    prediction = loaded_model.predict(preprocess_to_predict(request.user,data))
+                    prediction = "passed" if prediction == 1 else "failed"
+                messages.success(request,"Prediction done!")
+                return render(request, 'prediction/prediction.html', {
+                    'prediction_form': prediction_form,
+                    'prediction': prediction,
+                    'true_value': true_value,
+                    'model_name' : model_name
+                })
+
+            except Exception as e:
+                print("EXCEPTION:", str(e)) 
+                return render(request, 'prediction/prediction.html', {
+                    'prediction_form': prediction_form,
+                    'error': f'Error loading model or making prediction: {str(e)}'
+                })
+    return render(request, 'prediction/prediction.html',{'prediction_form': prediction_form})
 
 def preprocessed_data_view(request):
     return render(request,'preprocessed_data/preprocessed_data.html')
