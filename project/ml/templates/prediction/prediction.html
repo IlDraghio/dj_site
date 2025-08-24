@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Machine Learning
+{% endblock title %}
+
+
+{% block content %}
+    <p> This is machine learning data page </p>
+
+    <div style="margin-top: 30px;">
+        {% include 'partials/dtc.html' with dtc_form=dtc_form %}
+        {% include 'partials/knn.html' with knn_form=knn_form %}
+        {% include 'partials/gnb.html' %}
+        {% include 'partials/svc.html' with svc_form=svc_form %}
+        {% include 'partials/rfc.html' with rfc_form=rfc_form %}
+        {% include 'partials/km.html' with km_form=km_form %}
+    </div>
+
+    {% if messages %}
+    <ul class="messages" style="list-style:none; padding:0; text-align:center;">
+    {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+        {{ message }}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+{% endblock content %}
+    

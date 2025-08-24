@@ -2,8 +2,10 @@
 <form class = "in_line_form" method="post" action="{% url 'ml' %}" >
     {% csrf_token %}
     {{ dtc_form.as_p }}
-    <button name="dtc" type="submit" class="centered_button">Train</button>
-    <button name="export_dtc" type="submit" class="centered_button">Export Model</button>
+<div style="display: flex; gap: 0px; justify-content: center; margin-top: 10px;">
+    <button name="dtc" type="submit" style="margin-right: 4px; padding: 8px 12px;">Train</button>
+    <button name="export_dtc" type="submit" style="padding: 8px 12px;">Export Model</button>
+</div>
 </form>
 {% if dtc_metrics %}
 <div style="margin-top:20px; border:1px solid #ccc; padding:15px;">

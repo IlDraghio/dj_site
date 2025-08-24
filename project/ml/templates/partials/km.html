@@ -2,8 +2,11 @@
 <form class = "in_line_form" method="post" action="{% url 'ml' %}">
     {% csrf_token %}
     {{ km_form.as_p }}
-    <button name="km" type="submit" class="centered_button">Plot</button>
-</form>
+<div style="display: flex; gap: 0px; justify-content: center; margin-top: 10px;">
+    <button name="km" type="submit" style="margin-right: 4px; padding: 8px 12px;">Train</button>
+    <button name="export_km" type="submit" style="padding: 8px 12px;">Export Model</button>
+    <button name="export_km_image" type="submit" style="padding: 8px 12px;">Export Image</button>
+</div></form>
 {% if km_image %}
 <div style="text-align: center;">
     <img src="data:image/png;base64,{{ km_image }}" alt="Clustering done using" />

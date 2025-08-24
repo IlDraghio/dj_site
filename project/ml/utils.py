@@ -143,7 +143,7 @@ def knn(knn_form,user):
     X_train,X_test, y_train,y_test = split_data(df)
     knn.fit(X_train, y_train)
     y_pred = knn.predict(X_test)
-    return compute_metrics(y_test, y_pred)
+    return knn,compute_metrics(y_test, y_pred)
 
 def gnb(user):
     gnb = GaussianNB()
@@ -151,7 +151,7 @@ def gnb(user):
     X_train,X_test, y_train,y_test = split_data(df)
     gnb.fit(X_train, y_train)
     y_pred = gnb.predict(X_test)
-    return compute_metrics(y_test, y_pred)
+    return gnb,compute_metrics(y_test, y_pred)
 
 def svc(svc_form,user):
     svc = SVC(
@@ -166,7 +166,7 @@ def svc(svc_form,user):
     X_train,X_test, y_train,y_test = split_data(df)
     svc.fit(X_train, y_train)
     y_pred = svc.predict(X_test)
-    return compute_metrics(y_test, y_pred)
+    return svc,compute_metrics(y_test, y_pred)
 
 def rfc(rfc_form,user):
     rfc = RandomForestClassifier(
@@ -182,7 +182,7 @@ def rfc(rfc_form,user):
     X_train,X_test, y_train,y_test = split_data(df)
     rfc.fit(X_train, y_train)
     y_pred = rfc.predict(X_test)
-    return compute_metrics(y_test, y_pred)
+    return rfc,compute_metrics(y_test, y_pred)
 
 def km(km_form,user):
     km = KMeans(
@@ -226,4 +226,4 @@ def km(km_form,user):
     plt.close()
     buf.seek(0)
     image_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
-    return image_base64
+    return km,image_base64
