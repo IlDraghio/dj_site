@@ -81,7 +81,7 @@ def preprocessed_data(user):
     ]
     Preprocessed_data.objects.all().delete()
     Preprocessed_data.objects.bulk_create(pre_data)
-    return Preprocessed_data.objects.filter(user_id=user)
+    return Preprocessed_data.objects.filter(user_id=user).order_by('id')
 
 def save_to_csv(request,response):
     writer = csv.writer(response)

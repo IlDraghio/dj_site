@@ -7,7 +7,7 @@
 
 
 {% block content %}
-    <p> This is the Prediction page </p>
+    <p class="ml_title"> Predict! </p>
 
     <form class = "validated_form" method = "post" enctype="multipart/form-data">   
         {% csrf_token %}
@@ -16,10 +16,11 @@
     </form>
     {% if prediction %}
     <div style="text-align: center; margin-top: 20px;">
-        <h3>Prediction Result:</h3>
+        <h3 class="ml_title">Prediction Result:</h3>
         <p>{{ prediction }}</p>
-        <p>Obtained using {{ model_name }}</p>
-        <h3>True Value:</h3>
+        <h3 class="ml_title">Obtained using</h3>
+        <p> {{ model_name }}</p>
+        <h3 class="ml_title">True Value:</h3>
         <p>{{ true_value }}</p>
     </div>
     {% endif %}

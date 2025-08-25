@@ -6,7 +6,6 @@
 {% endblock title %}
 
 {% block content %}
-    <p> This is the dataset page </p>
     {% include 'partials/search_data.html' with form=search_data_form %}
     {% include 'partials/table_data.html' %}
     {% include 'partials/delete_data.html' %}
@@ -21,6 +20,5 @@
     {% endfor %}
     </ul>
 {% endif %}
-    <p>Link to the <a href="{% url 'new_data' %}">new data</a> page</p>
 {% endblock content %}
     

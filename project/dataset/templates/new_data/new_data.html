@@ -7,14 +7,14 @@
 
 
 {% block content %}
-    <p> This is the new data page </p> 
+    <p class="ml_title"> Manual Data Generation</p> 
     <form class = "validated_form" method = "post"> <!-- manual data generation form  -->
         {% csrf_token %}
         {{ new_data_form.as_p }}
         <button name = "new_data" style="display: block; margin-left: auto; margin-right: auto; padding: 12px 24px; top-bottom 12px, left-right 24px;">Submit</button>
     </form>
 
-    <p>Mass Data Generation</p>
+    <p class="ml_title">Mass Data Generation</p>
 
     {% include 'partials/mass_data.html' with form=massdata_form %}  <!-- mass_data form and button -->
     {% include 'partials/import_csv.html' with form=massdata_form %}

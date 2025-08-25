@@ -1,4 +1,4 @@
-<p>Insert id to delete data </p>
+<p class="ml_title">Insert id to delete data </p>
 <form method="post" action="{% url 'delete_data' %}">
     {% csrf_token %}
     <input type="text" name="id_to_delete" placeholder="Enter ID" required style = "display: block; margin: 12px auto; padding: 8px; width: 200px;">

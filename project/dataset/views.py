@@ -12,7 +12,7 @@ from .models import Data
 def dataset_view(request):
     current_user = request.user
     search_data_form = Searchdata_form(request.GET or None)
-    data_list = Data.objects.filter(user=current_user)
+    data_list = Data.objects.filter(user=current_user).order_by('id')
     if search_data_form.is_valid():
         data_list = search_data(search_data_form,data_list)
     paginator = Paginator(data_list, 20)
@@ -152,5 +152,4 @@ def export_csv_view(request):
                         data.average_grade,
                         data.behavior,
                         data.final_outcome])
-
     return response

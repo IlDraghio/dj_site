@@ -1,4 +1,4 @@
-    <p style=text-size: 1rem>Select file to import from CSV</p>
+    <p class="ml_title" style=text-size: 1rem>Select file to import from CSV</p>
     <form method="POST" enctype="multipart/form-data" action="{% url 'import_csv' %}" style="display: flex; justify-content: center; margin-top: 20px;">
         {% csrf_token %}
         <input type="file" name="csv_file" accept=".csv" required style="display: block; font-size: 18px;padding: 12px 24px; top-bottom 12px, left-right 24px;">
